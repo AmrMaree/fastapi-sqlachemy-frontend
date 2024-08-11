@@ -1,65 +1,33 @@
-
 import React, { useState } from 'react';
-import api from './api';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Home from './components/Home';
 import './App.css';
 
 const App = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
+  const [currentPage, setCurrentPage] = useState('login');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const switchToSignup = () => setCurrentPage('signup');
+  const switchToLogin = () => setCurrentPage('login');
+  const handleSuccessfulLogin = () => {
+    setIsLoggedIn(true);
+    setCurrentPage('home');
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await api.post('/users/', formData);
-      console.log(response.data);
-    } catch (error) {
-      console.error('There was an error!', error);
-    }
-  };
+  if (isLoggedIn) {
+    return <Home />;
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
-      <button type="submit">Sign Up</button>
-    </form>
+    <div>
+      {currentPage === 'login' ? (
+        <Login onSwitchToSignup={switchToSignup} onSuccessfulLogin={handleSuccessfulLogin} />
+      ) : (
+        <Signup onSwitchToLogin={switchToLogin} onSuccessfulSignup={switchToLogin} />
+      )}
+    </div>
   );
 };
 
-export default App
+export default App;
