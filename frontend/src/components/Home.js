@@ -1,10 +1,9 @@
 import React from 'react';
+import PostContainer from './PostContainer';
 
 const Home = () => {
     return (
-        <div>
-            <h1>Welcome to home page!</h1>
-        </div>
+        <PostContainer />
     )
 }
 
