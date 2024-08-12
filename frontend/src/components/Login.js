@@ -20,7 +20,7 @@ const Login = ({ onSwitchToSignup, onSuccessfulLogin }) => {
         setError('');
         try {
             const formData = new URLSearchParams();
-            formData.append('username', loginData.email); // OAuth2 expects 'username'
+            formData.append('username', loginData.email);
             formData.append('password', loginData.password);
 
             const response = await api.post('/users/login/', formData, {
@@ -30,7 +30,7 @@ const Login = ({ onSwitchToSignup, onSuccessfulLogin }) => {
             });
             localStorage.setItem('token', response.data.access_token);
             console.log(response.data);
-            onSuccessfulLogin(); // Call this function after successful login
+            onSuccessfulLogin();
         } catch (error) {
             console.error('There was an error!', error);
             setError('Login failed. Please check your credentials.');
