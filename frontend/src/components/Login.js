@@ -29,6 +29,7 @@ const Login = ({ onSwitchToSignup, onSuccessfulLogin }) => {
                 }
             });
             localStorage.setItem('token', response.data.access_token);
+            localStorage.setItem('userId', response.data.userId)
             console.log(response.data);
             onSuccessfulLogin();
         } catch (error) {

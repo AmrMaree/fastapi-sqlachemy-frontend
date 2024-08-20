@@ -265,3 +265,43 @@ th {
 .confirmation-dialog-buttons button:hover {
   filter: brightness(90%); /* Slightly darker on hover */
 }
+
+.add-post {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-post-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+}
+
+.add-post-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.add-post-buttons > button {
+  width: 100px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-post-buttons > button[type="button"] {
+  background-color: #f44336;
+}

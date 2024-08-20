@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import api from '../api'
 import EditPost from './EditPost';
 import ConfirmationDialog from './ConfirmationDialog';
+import AddPost from './AddPost';
 
 const PostContainer = () => {
     const [posts, setPosts] = useState([]);
@@ -10,6 +11,7 @@ const PostContainer = () => {
     const [postId, setPostId] = useState(null);
     const [isDeletePostOpen, setIsDeletePostOpen] = useState(false);
     const [deletePostId, setDeletePostId] = useState(null);
+    const [isAddPostOpen, setIsAddPostOpen] = useState(false);
     const token = localStorage.getItem('token');
 
     const toggleMenu = (postId) => {
@@ -37,6 +39,14 @@ const PostContainer = () => {
         setIsDeletePostOpen(true);
         setActiveMenu(null);
     };
+
+    const handleOpenAddPost = () => {
+        setIsAddPostOpen(true);
+    }
+
+    const handleCloseAddPost = () => {
+        setIsAddPostOpen(false);
+    }
 
     const handleDelete = async () => {
         try {
@@ -75,7 +85,7 @@ const PostContainer = () => {
         <div className='posts-container'>
             <div className='posts-container-header'>
                 <h2>Posts</h2>
-                <button type='button'>Add Post</button>
+                <button type='button' onClick={handleOpenAddPost}>Add Post</button>
             </div>
             <table border='1'>
                 <thead>
@@ -125,6 +135,13 @@ const PostContainer = () => {
                     message="Are you sure you want to delete this post?"
                     onConfirm={handleDelete}
                     onCancel={() => setIsDeletePostOpen(false)}
+                />
+            )}
+
+            {isAddPostOpen && (
+                <AddPost
+                    onClose={handleCloseAddPost}
+                    onSave={handleSave}
                 />
             )}
         </div>
