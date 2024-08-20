@@ -38,38 +38,40 @@ const Login = ({ onSwitchToSignup, onSuccessfulLogin }) => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleLoginSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={loginData.email}
-                        onChange={handleLoginChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={loginData.password}
-                        onChange={handleLoginChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            <p>
-                Don't have an account?{' '}
-                <span onClick={onSwitchToSignup} style={{ color: 'blue', cursor: 'pointer' }}>
-                    Sign Up
-                </span>
-            </p>
+        <div className='login-card'>
+            <div>
+                <h2>Login</h2>
+                {error && <p className="login-error">{error}</p>}
+                <form onSubmit={handleLoginSubmit}>
+                    <div>
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={loginData.email}
+                            onChange={handleLoginChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Password:</label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={loginData.password}
+                            onChange={handleLoginChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <p>
+                    Don't have an account?{' '}
+                    <span onClick={onSwitchToSignup} style={{ color: 'blue', cursor: 'pointer' }}>
+                        Sign Up
+                    </span>
+                </p>
+            </div>
         </div>
     );
 };

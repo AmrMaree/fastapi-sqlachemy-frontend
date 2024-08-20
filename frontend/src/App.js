@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from './components/Home';
-import './App.css';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('login');
