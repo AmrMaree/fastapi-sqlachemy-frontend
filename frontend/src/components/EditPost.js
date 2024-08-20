@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import api from '../api'
 
-const EditPost = ({ post_id }) => {
+const EditPost = ({ post_id, onSave, onClose }) => {
     const [post, setPost] = useState(null);
     const token = localStorage.getItem('token');
 
@@ -39,6 +39,7 @@ const EditPost = ({ post_id }) => {
                 }
             });
             console.log('Post updated successfully:', response.data);
+            if (onSave) onSave();
         } catch (error) {
             console.error('Error updating post:', error);
         }
@@ -72,7 +73,7 @@ const EditPost = ({ post_id }) => {
                     </div>
                     <div className="edit-post-buttons">
                         <button type="button" onClick={handleSave}>Save</button>
-                        <button type="button">Cancel</button>
+                        <button type="button" onClick={onClose}>Cancel</button>
                     </div>
                 </form>
             </div>

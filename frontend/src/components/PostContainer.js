@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api'
 import EditPost from './EditPost';
-
+import ConfirmationDialog from './ConfirmationDialog';
 
 const PostContainer = () => {
     const [posts, setPosts] = useState([]);
-    const token = localStorage.getItem('token');
-
     const [activeMenu, setActiveMenu] = useState(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [postId, setPostId] = useState(null);
+    const [isDeletePostOpen, setIsDeletePostOpen] = useState(false);
+    const [deletePostId, setDeletePostId] = useState(null);
+    const token = localStorage.getItem('token');
 
     const toggleMenu = (postId) => {
         setActiveMenu(activeMenu === postId ? null : postId);
@@ -26,32 +27,56 @@ const PostContainer = () => {
         setPostId(null);
     };
 
-
-    const handleSave = () => {
-        //onUpdate(currentPost);  // Pass the updated post to the parent component
+    const handleSave = async () => {
+        await fetchPosts();
         closeEditPost();
     };
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await api.get('/posts/', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setPosts(response.data);
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            }
-        };
+    const openConfirmationDialog = (postId) => {
+        setDeletePostId(postId);
+        setIsDeletePostOpen(true);
+        setActiveMenu(null);
+    };
 
+    const handleDelete = async () => {
+        try {
+            const response = await api.delete(`/posts/${deletePostId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log(response.data)
+            await fetchPosts();  // Refresh posts list after deletion
+        } catch (error) {
+            console.error('Error deleting post:', error);
+        }
+        setIsDeletePostOpen(false);
+        setDeletePostId(null);
+    };
+
+    const fetchPosts = async () => {
+        try {
+            const response = await api.get('/posts/', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setPosts(response.data);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchPosts();
     }, [token]);
 
     return (
         <div className='posts-container'>
-            <h2>Posts</h2>
+            <div className='posts-container-header'>
+                <h2>Posts</h2>
+                <button type='button'>Add Post</button>
+            </div>
             <table border='1'>
                 <thead>
                     <tr>
@@ -77,7 +102,7 @@ const PostContainer = () => {
                                     {activeMenu === post.id && (
                                         <div className="settings-menu">
                                             <div className="settings-item" onClick={() => openEditPost(post.id)}>Edit</div>
-                                            <div className="settings-item">Delete</div>
+                                            <div className="settings-item" onClick={() => openConfirmationDialog(post.id)}>Delete</div>
                                         </div>
                                     )}
                                 </div>
@@ -87,7 +112,21 @@ const PostContainer = () => {
                 </tbody>
             </table>
 
-            {isEditOpen && <EditPost post_id={postId} />}
+            {isEditOpen && (
+                <EditPost
+                    post_id={postId}
+                    onClose={closeEditPost}
+                    onSave={handleSave}
+                />
+            )}
+
+            {isDeletePostOpen && (
+                <ConfirmationDialog
+                    message="Are you sure you want to delete this post?"
+                    onConfirm={handleDelete}
+                    onCancel={() => setIsDeletePostOpen(false)}
+                />
+            )}
         </div>
     );
 };
