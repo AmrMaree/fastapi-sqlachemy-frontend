@@ -305,3 +305,47 @@ th {
 .add-post-buttons > button[type="button"] {
   background-color: #f44336;
 }
+
+.navbar {
+  background-color: #333;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.search-form {
+  width: 30%;
+  background-color: #333;
+  display: flex;
+  margin-left: auto;
+}
+
+.search-input {
+  padding: 5px;
+  border-radius: 3px 0 0 3px;
+  border: none;
+}
+
+.search-button {
+  width: 150px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+}
