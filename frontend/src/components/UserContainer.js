@@ -5,7 +5,7 @@ import ConfirmationDialog from './ConfirmationDialog';
 import AddPost from './AddPost';
 import CommentContainer from './CommentContainer';
 
-const PostContainer = () => {
+const UserContainer = () => {
     const [posts, setPosts] = useState([]);
     const [activeMenu, setActiveMenu] = useState(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
@@ -14,7 +14,7 @@ const PostContainer = () => {
     const [deletePostId, setDeletePostId] = useState(null);
     const [isAddPostOpen, setIsAddPostOpen] = useState(false);
     const [isPostCommentsOpen, setIsPostCommentsOpen] = useState(false);
-    const [isPostContainerVisible, setIsPostContainerVisible] = useState(true);
+    const [isUserContainerVisible, setIsUserContainerVisible] = useState(true);
     const token = localStorage.getItem('token');
 
     const toggleMenu = (postId) => {
@@ -34,7 +34,7 @@ const PostContainer = () => {
 
     const openPostComments = (postId) => {
         setIsPostCommentsOpen(true);
-        setIsPostContainerVisible(false);
+        setIsUserContainerVisible(false);
         setActiveMenu(null);
         setPostId(postId);
     }
@@ -165,4 +165,4 @@ const PostContainer = () => {
     );
 };
 
-export default PostContainer;
+export default UserContainer;

@@ -19,7 +19,11 @@ const NavBar = ({ onSearch }) => {
         <nav className="navbar">
             <div className="navbar-content">
                 <div className="logo">
-                    <h1>MyApp</h1>
+                    <img src="/logo512.png" alt="Logo" className="logo-image" />
+                </div>
+                <div className='navbar-buttons'>
+                    <button>Users</button>
+                    <button className='active'>Posts</button>
                 </div>
                 <form className="search-form" onSubmit={handleSearch}>
                     <input

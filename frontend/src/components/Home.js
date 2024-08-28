@@ -1,6 +1,7 @@
 import React from 'react';
 import PostContainer from './PostContainer';
 import NavBar from './NavBar';
+import UserContainer from './UserContainer';
 
 const Home = () => {
 
@@ -12,6 +13,7 @@ const Home = () => {
         <>
             <NavBar onSearch={handleSearch} />
             <PostContainer />
+            <UserContainer />
         </>
     )
 }

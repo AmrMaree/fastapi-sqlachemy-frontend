@@ -311,12 +311,11 @@ th {
 }
 
 .navbar {
-  background-color: #333;
-  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: white;
+  background-color: #333;
+  padding: 10px 20px;
 }
 
 .navbar-content {
@@ -325,16 +324,45 @@ th {
   width: 100%;
 }
 
-.logo {
-  font-weight: bold;
-  margin-left: 10px;
+.logo-image {
+  height: 50px; 
+  margin-right: 20px;
+}
+
+.navbar-buttons {
+  display: flex;
+  width: 20%;
+  margin-left: 90px;
+  gap: 10px;
+}
+
+.navbar-buttons button {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px 5px 0 0;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-buttons button:hover {
+  background-color: #555;
+}
+
+.navbar-buttons button.active {
+  background-color: #fff;
+  color: #333;
+  border-bottom: 2px solid #333;
 }
 
 .search-form {
+  padding: 10px;
   width: 30%;
   background-color: #333;
   display: flex;
   margin-left: auto;
+  box-shadow: none;
 }
 
 .search-input {
@@ -347,9 +375,15 @@ th {
   width: 150px;
   padding: 5px 10px;
   margin-left: 10px;
-  background-color: #4CAF50;
+  /* background-color: #4CAF50; */
+  background-color: #007bff;
   border: none;
   border-radius: 3px;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.search-button:hover {
+  background-color: #0056b3;
+} 
