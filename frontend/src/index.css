@@ -66,21 +66,21 @@ button:hover {
   background-color: #45a049;
 }
 
-.posts-container {
+.posts-container,.comments-container {
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.posts-container-header{
+.posts-container-header,.comments-container-header{
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.posts-container-header > button{
-  width: 100px;
+.posts-container-header > button, .comments-container-header > button{
+  width: 120px;
   height: 45px;
   border: none;
   border-radius: 5px;
@@ -136,7 +136,7 @@ th {
   background-color: #f4f4f4;
 }
 
-.edit-post {
+.edit-post, .edit-comment {
   position: fixed;
   top: 0;
   left: 0;
@@ -149,7 +149,7 @@ th {
   z-index: 1000;
 }
 
-.edit-post-content {
+.edit-post-content, .edit-comment-content {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -158,22 +158,22 @@ th {
   max-width: 100%;
 }
 
-.edit-post-content h2 {
+.edit-post-content h2, .edit-comment-content h2 {
   margin-top: 0;
 }
 
-.edit-post-content form div {
+.edit-post-content form div, .edit-comment-content form div {
   margin-bottom: 15px;
 }
 
-.edit-post-content label {
+.edit-post-content label,.edit-comment-content label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.edit-post-content input[type="text"],
-.edit-post-content textarea {
+.edit-post-content input[type="text"], .edit-comment-content input[type="text"],
+.edit-post-content textarea, .edit-comment-content textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -181,12 +181,12 @@ th {
   box-sizing: border-box;
 }
 
-.edit-post-buttons {
+.edit-post-buttons, .edit-comment-buttons {
   display: flex;
   justify-content: flex-end;
 }
 
-.edit-post-buttons button {
+.edit-post-buttons button, .edit-comment-buttons button {
   padding: 10px 15px;
   margin-left: 10px;
   border: none;
@@ -197,15 +197,15 @@ th {
   font-size: 16px;
 }
 
-.edit-post-buttons button:hover {
+.edit-post-buttons button:hover, .edit-comment-buttons button:hover {
   background-color: #45a049;
 }
 
-.edit-post-buttons button[type="button"]:nth-child(2) {
+.edit-post-buttons button[type="button"]:nth-child(2), .edit-comment-buttons button[type="button"]:nth-child(2) {
   background-color: #f44336;
 }
 
-.edit-post-buttons button[type="button"]:nth-child(2):hover {
+.edit-post-buttons button[type="button"]:nth-child(2):hover, .edit-comment-buttons button[type="button"]:nth-child(2):hover {
   background-color: #e53935;
 }
 
@@ -266,7 +266,7 @@ th {
   filter: brightness(90%); /* Slightly darker on hover */
 }
 
-.add-post {
+.add-post, .add-comment {
   position: fixed;
   top: 0;
   left: 0;
@@ -278,20 +278,24 @@ th {
   align-items: center;
 }
 
-.add-post-content {
+.add-post-button:hover, .add-comment-button:hover {
+  background-color: #45a049;
+}
+
+.add-post-content, .add-comment-content {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
   width: 400px;
 }
 
-.add-post-buttons {
+.add-post-buttons, .add-comment-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.add-post-buttons > button {
+.add-post-buttons > button , .add-comment-buttons > button{
   width: 100px;
   height: 45px;
   border: none;
@@ -302,7 +306,7 @@ th {
   cursor: pointer;
 }
 
-.add-post-buttons > button[type="button"] {
+.add-post-buttons > button[type="button"], .add-comment-buttons > button[type="button"] {
   background-color: #f44336;
 }
 

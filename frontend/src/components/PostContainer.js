@@ -97,7 +97,7 @@ const PostContainer = () => {
                 <div className='posts-container'>
                     <div className='posts-container-header'>
                         <h2>Posts</h2>
-                        <button type='button' onClick={handleOpenAddPost}>Add Post</button>
+                        <button type='button' className='add-post-button' onClick={handleOpenAddPost}>Add Post</button>
                     </div>
                     <table border='1'>
                         <thead>
@@ -106,7 +106,7 @@ const PostContainer = () => {
                                 <th>Title</th>
                                 <th>Content</th>
                                 <th>Date Created</th>
-                                <th></th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,7 +161,7 @@ const PostContainer = () => {
             )}
 
             {isPostCommentsOpen && (
-                <CommentContainer />
+                <CommentContainer post_id={postId} />
             )}
         </>
     );
