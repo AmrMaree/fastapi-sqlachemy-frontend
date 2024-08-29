@@ -3,99 +3,95 @@ import api from '../api'
 import EditPost from './EditPost';
 import ConfirmationDialog from './ConfirmationDialog';
 import AddPost from './AddPost';
-import CommentContainer from './CommentContainer';
 
 const UserContainer = () => {
-    const [posts, setPosts] = useState([]);
+    const [users, setUsers] = useState([]);
     const [activeMenu, setActiveMenu] = useState(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
-    const [postId, setPostId] = useState(null);
-    const [isDeletePostOpen, setIsDeletePostOpen] = useState(false);
-    const [deletePostId, setDeletePostId] = useState(null);
-    const [isAddPostOpen, setIsAddPostOpen] = useState(false);
-    const [isPostCommentsOpen, setIsPostCommentsOpen] = useState(false);
-    const [isUserContainerVisible, setIsUserContainerVisible] = useState(true);
+    const [userId, setUserId] = useState(null);
+    const [isDeleteUserOpen, setIsDeleteUserOpen] = useState(false);
+    const [deleteUserId, setDeleteUserId] = useState(null);
+    const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+
     const token = localStorage.getItem('token');
 
-    const toggleMenu = (postId) => {
-        setActiveMenu(activeMenu === postId ? null : postId);
+    const toggleMenu = (userId) => {
+        setActiveMenu(activeMenu === userId ? null : userId);
     };
 
-    const openEditPost = (postId) => {
+    const openEditPost = (userId) => {
         setIsEditOpen(true);
         setActiveMenu(null);
-        setPostId(postId);
+        setUserId(userId);
     };
 
     const closeEditPost = () => {
         setIsEditOpen(false);
-        setPostId(null);
+        setUserId(null);
     };
 
-    const openPostComments = (postId) => {
-        setIsPostCommentsOpen(true);
-        setIsUserContainerVisible(false);
+    const openPostComments = (userId) => {
         setActiveMenu(null);
-        setPostId(postId);
+        setUserId(userId);
     }
 
     const handleSave = async () => {
-        await fetchPosts();
+        await fetchusers();
         closeEditPost();
     };
 
-    const openConfirmationDialog = (postId) => {
-        setDeletePostId(postId);
-        setIsDeletePostOpen(true);
+    const openConfirmationDialog = (userId) => {
+        setDeleteUserId(userId);
+        setIsDeleteUserOpen(true);
         setActiveMenu(null);
     };
 
     const handleOpenAddPost = () => {
-        setIsAddPostOpen(true);
+        setIsAddUserOpen(true);
     }
 
     const handleCloseAddPost = () => {
-        setIsAddPostOpen(false);
+        setIsAddUserOpen(false);
     }
 
     const handleDelete = async () => {
         try {
-            const response = await api.delete(`/posts/${deletePostId}`, {
+            const response = await api.delete(`/users/${deleteUserId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             console.log(response.data)
-            await fetchPosts();  // Refresh posts list after deletion
+            await fetchusers();  // Refresh users list after deletion
         } catch (error) {
             console.error('Error deleting post:', error);
         }
-        setIsDeletePostOpen(false);
-        setDeletePostId(null);
+        setIsDeleteUserOpen(false);
+        setDeleteUserId(null);
     };
 
-    const fetchPosts = async () => {
+    const fetchusers = async () => {
         try {
-            const response = await api.get('/posts/', {
+            const response = await api.get('/users/', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setPosts(response.data);
+            setUsers(response.data);
         } catch (error) {
-            console.error('Error fetching posts:', error);
+            console.error('Error fetching users:', error);
         }
     };
 
     useEffect(() => {
-        fetchPosts();
+        fetchusers();
     }, [token]);
 
     return (
         <>
-            <div className='posts-container'>
-                <div className='posts-container-header'>
-                    <h2>Posts</h2>
+            <div className='users-container'>
+                <div className='users-container-header'>
+                    <h2>users</h2>
                     <button type='button' className='add-post-button' onClick={handleOpenAddPost}>Add Post</button>
                 </div>
                 <table border='1'>
@@ -109,7 +105,7 @@ const UserContainer = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {posts.map((post) => (
+                        {users.map((post) => (
                             <tr key={post.id}>
                                 <td>{post.id}</td>
                                 <td>{post.title}</td>
@@ -136,31 +132,27 @@ const UserContainer = () => {
 
                 {isEditOpen && (
                     <EditPost
-                        post_id={postId}
+                        post_id={userId}
                         onClose={closeEditPost}
                         onSave={handleSave}
                     />
                 )}
 
-                {isDeletePostOpen && (
+                {isDeleteUserOpen && (
                     <ConfirmationDialog
                         message="Are you sure you want to delete this post?"
                         onConfirm={handleDelete}
-                        onCancel={() => setIsDeletePostOpen(false)}
+                        onCancel={() => setIsDeleteUserOpen(false)}
                     />
                 )}
 
-                {isAddPostOpen && (
+                {isAddUserOpen && (
                     <AddPost
                         onClose={handleCloseAddPost}
                         onSave={handleSave}
                     />
                 )}
             </div>
-
-            {isPostCommentsOpen && (
-                <CommentContainer post_id={postId} />
-            )}
         </>
     );
 };

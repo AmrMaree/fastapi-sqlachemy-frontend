@@ -14,7 +14,6 @@ const PostContainer = () => {
     const [deletePostId, setDeletePostId] = useState(null);
     const [isAddPostOpen, setIsAddPostOpen] = useState(false);
     const [isPostCommentsOpen, setIsPostCommentsOpen] = useState(false);
-    const [isPostContainerVisible, setIsPostContainerVisible] = useState(true);
     const token = localStorage.getItem('token');
 
     const toggleMenu = (postId) => {
@@ -34,7 +33,6 @@ const PostContainer = () => {
 
     const openPostComments = (postId) => {
         setIsPostCommentsOpen(true);
-        setIsPostContainerVisible(false);
         setActiveMenu(null);
         setPostId(postId);
     }
@@ -66,7 +64,7 @@ const PostContainer = () => {
                 }
             });
             console.log(response.data)
-            await fetchPosts();  // Refresh posts list after deletion
+            await fetchPosts();
         } catch (error) {
             console.error('Error deleting post:', error);
         }

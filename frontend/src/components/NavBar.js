@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const NavBar = ({ onSearch }) => {
+const NavBar = ({ onSearch, isUsersOpen, isPostsOpen, setIsUsersOpen, setIsPostsOpen }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -15,6 +15,16 @@ const NavBar = ({ onSearch }) => {
         }
     };
 
+    const handleUsersClick = () => {
+        setIsUsersOpen(true);
+        setIsPostsOpen(false);
+    }
+
+    const handlePostsClick = () => {
+        setIsPostsOpen(true);
+        setIsUsersOpen(false);
+    }
+
     return (
         <nav className="navbar">
             <div className="navbar-content">
@@ -22,8 +32,8 @@ const NavBar = ({ onSearch }) => {
                     <img src="/logo512.png" alt="Logo" className="logo-image" />
                 </div>
                 <div className='navbar-buttons'>
-                    <button>Users</button>
-                    <button className='active'>Posts</button>
+                    <button className={isUsersOpen ? "active" : ""} onClick={handleUsersClick}>Users</button>
+                    <button className={isPostsOpen ? "active" : ""} onClick={handlePostsClick}>Posts</button>
                 </div>
                 <form className="search-form" onSubmit={handleSearch}>
                     <input
