@@ -14,6 +14,7 @@ const PostContainer = () => {
     const [deletePostId, setDeletePostId] = useState(null);
     const [isAddPostOpen, setIsAddPostOpen] = useState(false);
     const [isPostCommentsOpen, setIsPostCommentsOpen] = useState(false);
+    const [isPostsContainerOpen, setIsPostsConatainerOpen] = useState(true);
     const token = localStorage.getItem('token');
 
     const toggleMenu = (postId) => {
@@ -35,6 +36,7 @@ const PostContainer = () => {
         setIsPostCommentsOpen(true);
         setActiveMenu(null);
         setPostId(postId);
+        setIsPostsConatainerOpen(false);
     }
 
     const handleSave = async () => {
@@ -50,6 +52,7 @@ const PostContainer = () => {
 
     const handleOpenAddPost = () => {
         setIsAddPostOpen(true);
+        setActiveMenu(null);
     }
 
     const handleCloseAddPost = () => {
@@ -91,70 +94,72 @@ const PostContainer = () => {
 
     return (
         <>
-            <div className='posts-container'>
-                <div className='posts-container-header'>
-                    <h2>Posts</h2>
-                    <button type='button' className='add-post-button' onClick={handleOpenAddPost}>Add Post</button>
-                </div>
-                <table border='1'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Date Created</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {posts.map((post) => (
-                            <tr key={post.id}>
-                                <td>{post.id}</td>
-                                <td>{post.title}</td>
-                                <td>{post.content}</td>
-                                <td>{new Date(post.created_at).toLocaleString()}</td>
-                                <td>
-                                    <div className="settings-container">
-                                        <span className="settings-icon" onClick={() => toggleMenu(post.id)}>
-                                            ...
-                                        </span>
-                                        {activeMenu === post.id && (
-                                            <div className="settings-menu">
-                                                <div className="settings-item" onClick={() => openEditPost(post.id)}>Edit</div>
-                                                <div className="settings-item" onClick={() => openPostComments(post.id)}>Comments</div>
-                                                <div className="settings-item" onClick={() => openConfirmationDialog(post.id)}>Delete</div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </td>
+            {isPostsContainerOpen && (
+                <div className='posts-container'>
+                    <div className='posts-container-header'>
+                        <h2>Posts</h2>
+                        <button type='button' className='add-post-button' onClick={handleOpenAddPost}>Add Post</button>
+                    </div>
+                    <table border='1'>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Date Created</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {posts.map((post) => (
+                                <tr key={post.id}>
+                                    <td>{post.id}</td>
+                                    <td>{post.title}</td>
+                                    <td>{post.content}</td>
+                                    <td>{new Date(post.created_at).toLocaleString()}</td>
+                                    <td>
+                                        <div className="settings-container">
+                                            <span className="settings-icon" onClick={() => toggleMenu(post.id)}>
+                                                ...
+                                            </span>
+                                            {activeMenu === post.id && (
+                                                <div className="settings-menu">
+                                                    <div className="settings-item" onClick={() => openEditPost(post.id)}>Edit</div>
+                                                    <div className="settings-item" onClick={() => openPostComments(post.id)}>Comments</div>
+                                                    <div className="settings-item" onClick={() => openConfirmationDialog(post.id)}>Delete</div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
 
-                {isEditOpen && (
-                    <EditPost
-                        post_id={postId}
-                        onClose={closeEditPost}
-                        onSave={handleSave}
-                    />
-                )}
+                    {isEditOpen && (
+                        <EditPost
+                            post_id={postId}
+                            onClose={closeEditPost}
+                            onSave={handleSave}
+                        />
+                    )}
 
-                {isDeletePostOpen && (
-                    <ConfirmationDialog
-                        message="Are you sure you want to delete this post?"
-                        onConfirm={handleDelete}
-                        onCancel={() => setIsDeletePostOpen(false)}
-                    />
-                )}
+                    {isDeletePostOpen && (
+                        <ConfirmationDialog
+                            message="Are you sure you want to delete this post?"
+                            onConfirm={handleDelete}
+                            onCancel={() => setIsDeletePostOpen(false)}
+                        />
+                    )}
 
-                {isAddPostOpen && (
-                    <AddPost
-                        onClose={handleCloseAddPost}
-                        onSave={handleSave}
-                    />
-                )}
-            </div>
+                    {isAddPostOpen && (
+                        <AddPost
+                            onClose={handleCloseAddPost}
+                            onSave={handleSave}
+                        />
+                    )}
+                </div>
+            )}
 
             {isPostCommentsOpen && (
                 <CommentContainer post_id={postId} />

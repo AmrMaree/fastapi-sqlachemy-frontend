@@ -376,7 +376,7 @@ th {
   padding: 5px 10px;
   margin-left: 10px;
   /* background-color: #4CAF50; */
-  background-color: #007bff;
+  background-color: hsl(192, 95%, 45%);
   border: none;
   border-radius: 3px;
   color: white;
@@ -385,5 +385,5 @@ th {
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background-color:hsl(192, 95%, 37%);
 } 

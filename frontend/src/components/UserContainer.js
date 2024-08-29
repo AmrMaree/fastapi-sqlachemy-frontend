@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api'
-import EditPost from './EditPost';
+import EditUser from './EditUser';
 import ConfirmationDialog from './ConfirmationDialog';
 import AddPost from './AddPost';
 
@@ -25,19 +25,14 @@ const UserContainer = () => {
         setUserId(userId);
     };
 
-    const closeEditPost = () => {
+    const closeEditUser = () => {
         setIsEditOpen(false);
         setUserId(null);
     };
 
-    const openPostComments = (userId) => {
-        setActiveMenu(null);
-        setUserId(userId);
-    }
-
     const handleSave = async () => {
-        await fetchusers();
-        closeEditPost();
+        await fetchUsers();
+        closeEditUser();
     };
 
     const openConfirmationDialog = (userId) => {
@@ -46,11 +41,12 @@ const UserContainer = () => {
         setActiveMenu(null);
     };
 
-    const handleOpenAddPost = () => {
+    const handleOpenAddUser = () => {
         setIsAddUserOpen(true);
+        setActiveMenu(null);
     }
 
-    const handleCloseAddPost = () => {
+    const handleCloseAddUser = () => {
         setIsAddUserOpen(false);
     }
 
@@ -62,7 +58,7 @@ const UserContainer = () => {
                 }
             });
             console.log(response.data)
-            await fetchusers();  // Refresh users list after deletion
+            await fetchUsers();
         } catch (error) {
             console.error('Error deleting post:', error);
         }
@@ -70,13 +66,14 @@ const UserContainer = () => {
         setDeleteUserId(null);
     };
 
-    const fetchusers = async () => {
+    const fetchUsers = async () => {
         try {
             const response = await api.get('/users/', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log(response.data)
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -84,43 +81,42 @@ const UserContainer = () => {
     };
 
     useEffect(() => {
-        fetchusers();
+        fetchUsers();
     }, [token]);
 
     return (
         <>
-            <div className='users-container'>
-                <div className='users-container-header'>
-                    <h2>users</h2>
-                    <button type='button' className='add-post-button' onClick={handleOpenAddPost}>Add Post</button>
+            <div className='posts-container'>
+                <div className='posts-container-header'>
+                    <h2>Users</h2>
+                    <button type='button' className='add-post-button' onClick={handleOpenAddUser}>Add User</button>
                 </div>
                 <table border='1'>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Title</th>
-                            <th>Content</th>
-                            <th>Date Created</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((post) => (
-                            <tr key={post.id}>
-                                <td>{post.id}</td>
-                                <td>{post.title}</td>
-                                <td>{post.content}</td>
-                                <td>{new Date(post.created_at).toLocaleString()}</td>
+                        {users.map((user) => (
+                            <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.role}</td>
                                 <td>
                                     <div className="settings-container">
-                                        <span className="settings-icon" onClick={() => toggleMenu(post.id)}>
+                                        <span className="settings-icon" onClick={() => toggleMenu(user.id)}>
                                             ...
                                         </span>
-                                        {activeMenu === post.id && (
+                                        {activeMenu === user.id && (
                                             <div className="settings-menu">
-                                                <div className="settings-item" onClick={() => openEditPost(post.id)}>Edit</div>
-                                                <div className="settings-item" onClick={() => openPostComments(post.id)}>Comments</div>
-                                                <div className="settings-item" onClick={() => openConfirmationDialog(post.id)}>Delete</div>
+                                                <div className="settings-item" onClick={() => openEditPost(user.id)}>Edit</div>
+                                                <div className="settings-item" onClick={() => openConfirmationDialog(user.id)}>Delete</div>
                                             </div>
                                         )}
                                     </div>
@@ -131,9 +127,9 @@ const UserContainer = () => {
                 </table>
 
                 {isEditOpen && (
-                    <EditPost
-                        post_id={userId}
-                        onClose={closeEditPost}
+                    <EditUser
+                        user_id={userId}
+                        onClose={closeEditUser}
                         onSave={handleSave}
                     />
                 )}
@@ -148,7 +144,7 @@ const UserContainer = () => {
 
                 {isAddUserOpen && (
                     <AddPost
-                        onClose={handleCloseAddPost}
+                        onClose={handleCloseAddUser}
                         onSave={handleSave}
                     />
                 )}
