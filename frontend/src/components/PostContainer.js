@@ -15,6 +15,7 @@ const PostContainer = () => {
     const [isAddPostOpen, setIsAddPostOpen] = useState(false);
     const [isPostCommentsOpen, setIsPostCommentsOpen] = useState(false);
     const [isPostsContainerOpen, setIsPostsConatainerOpen] = useState(true);
+    const [postCount, setPostCount] = useState(posts.length);
     const token = localStorage.getItem('token');
 
     const toggleMenu = (postId) => {
@@ -92,12 +93,45 @@ const PostContainer = () => {
         fetchPosts();
     }, [token]);
 
+    useEffect(() => {
+        const socket = new WebSocket('ws://localhost:8000/ws/posts');
+        socket.onopen = () => {
+            console.log('WebSocket connection opened');
+        };
+        socket.onmessage = (e) => {
+            const count = parseInt(e.data);
+            console.log(e.data)
+
+            if (!isNaN(count)) {
+                setPostCount(count);
+            } else {
+                console.error('Invalid post count received:', e.data);
+            }
+        };
+
+        socket.onclose = (e) => {
+            console.log('WebSocket connection closed:', e.code, e.reason);
+        };
+
+        socket.onerror = (e) => {
+            console.error('WebSocket error:', e);
+        };
+
+        return () => {
+            if (socket.readyState === 1) {
+                socket.close();
+            }
+        };
+    }, []);
+
+
     return (
         <>
             {isPostsContainerOpen && (
                 <div className='posts-container'>
                     <div className='posts-container-header'>
                         <h2>Posts</h2>
+                        <p>Number of Posts: {postCount}</p>
                         <button type='button' className='add-post-button' onClick={handleOpenAddPost}>Add Post</button>
                     </div>
                     <table border='1'>
