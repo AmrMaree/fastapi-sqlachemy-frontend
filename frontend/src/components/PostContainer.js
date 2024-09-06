@@ -4,9 +4,13 @@ import EditPost from './EditPost';
 import ConfirmationDialog from './ConfirmationDialog';
 import AddPost from './AddPost';
 import CommentContainer from './CommentContainer';
+import { useSelector, useDispatch } from 'react-redux';
+import { addPost, deletePost, getPosts } from '../redux/slices/postSlice';
 
 const PostContainer = () => {
-    const [posts, setPosts] = useState([]);
+    // const [posts, setPosts] = useState([]);
+    const posts = useSelector((state) => state.post.posts);
+    const dispatch = useDispatch();
     const [activeMenu, setActiveMenu] = useState(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [postId, setPostId] = useState(null);
@@ -83,7 +87,8 @@ const PostContainer = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setPosts(response.data);
+            // setPosts(response.data);
+            dispatch(getPosts(response.data));
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
