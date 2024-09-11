@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import api from '../api'
 import EditPost from './EditPost';
 import ConfirmationDialog from './ConfirmationDialog';
 import AddPost from './AddPost';
 import CommentContainer from './CommentContainer';
 import { useSelector, useDispatch } from 'react-redux';
-import { addPost, deletePost, getPosts } from '../redux/slices/postSlice';
+import { getPosts } from '../redux/slices/postSlice';
 
 const PostContainer = () => {
     // const [posts, setPosts] = useState([]);
@@ -80,7 +80,7 @@ const PostContainer = () => {
         setDeletePostId(null);
     };
 
-    const fetchPosts = async () => {
+    const fetchPosts = useCallback(async () => {
         try {
             const response = await api.get('/posts/', {
                 headers: {
@@ -92,11 +92,11 @@ const PostContainer = () => {
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
-    };
+    }, [token]);
 
     useEffect(() => {
-        fetchPosts();
-    }, [token]);
+        fetchPosts()
+    }, [fetchPosts]); //I used useCallback to remove the warning
 
     useEffect(() => {
         const socket = new WebSocket('ws://localhost:8000/ws/posts');
