@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getPosts } from '../redux/slices/postSlice';
 
 const PostContainer = () => {
-    // const [posts, setPosts] = useState([]);
     const posts = useSelector((state) => state.post.posts);
     const dispatch = useDispatch();
     const [activeMenu, setActiveMenu] = useState(null);
@@ -87,7 +86,6 @@ const PostContainer = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            // setPosts(response.data);
             dispatch(getPosts(response.data));
         } catch (error) {
             console.error('Error fetching posts:', error);
